@@ -8,34 +8,47 @@ from pathlib import Path
 
 class Yolo2Voc(object):
     def __init__(self, class_file, annotations_path, **kwargs):
-        self.class_file = class_file
-        self.annotations_path = annotations_path
-        self.annotation_files = []
+        self.__class_file = class_file
+        self.__annotations_path = annotations_path
+        self.__annotation_files = []
+        self.__image_files = []
+
+
         self.__readFiles()
+        self.__createFile()
 
         #kwargs
         self.source = kwargs['source']
 
-        print(self.source)
+        #print(self.__image_files)
 
-        xml = self.__createRoot('image.png', img_shape = (100, 100, 3), source="teste")
-        print(ET.tostring(xml))
+        xml = self.__createObjectAnnotation('image.png', img_shape = (100, 100, 3), source="teste", objects=None)
+        #print(ET.tostring(xml))
 
 
     def __readFiles(self):
         try:
-            for root, dirs, files in os.walk(self.annotations_path):
+            for root, dirs, files in os.walk(self.__annotations_path):
                 for file in files:
                     if file.endswith('txt'):
-                        print(file)
+                        self.__annotation_files.append(file.split(".")[0])
+                    else:
+                        self.__image_files.append(file)              
         except NameError:
             raise
 
-    def __createRoot(self, file, img_shape, **kwargs):
+    def __createFile(self):
+        for image in self.__image_files:
+            if image.split(".")[0] in self.__annotation_files:
+                im = Image.open(Path(self.__annotations_path+"/"+image))
+                
+                
+
+    def __createObjectAnnotation(self, file, img_shape, objects, **kwargs):
         root = ET.Element("annotations")
-        ET.SubElement(root, "folder").text = str(Path(self.annotations_path))
+        ET.SubElement(root, "folder").text = str(Path(self.__annotations_path))
         ET.SubElement(root, "filename").text = file
-        ET.SubElement(root, "path").text = str(Path(self.annotations_path + "\\" + file))
+        ET.SubElement(root, "path").text = str(Path(self.__annotations_path + "\\" + file))
 
         source = ET.SubElement(root, "source")
         ET.SubElement(source, "database").text = "None" if kwargs['source'] else kwargs['source']
@@ -44,5 +57,5 @@ class Yolo2Voc(object):
         ET.SubElement(size, "width").text = str(img_shape[0])
         ET.SubElement(size, "height").text = str(img_shape[1])
         ET.SubElement(size, "depth").text = str(img_shape[2])
-
+        
         return root
