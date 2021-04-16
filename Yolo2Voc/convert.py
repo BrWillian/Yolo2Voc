@@ -39,8 +39,15 @@ class Yolo2Voc(object):
 
     def __createFile(self):
         for image in self.__image_files:
-            if image.split(".")[0] in self.__annotation_files:
-                im = Image.open(Path(self.__annotations_path+"/"+image))
+            image_file = Path(self.__annotations_path+"/"+image)
+            relative_annotation = image.split(".")[0]
+            annotation_file = Path(self.__annotations_path+"/"+relative_annotation+".txt")
+            if relative_annotation in self.__annotation_files:
+                im = Image.open(image_file)
+                img_shape = (*im.size, len(im.mode))
+                with open(annotation_file, "r") as file:
+                    line = file.readlines()
+                    print(line)
                 
                 
 
