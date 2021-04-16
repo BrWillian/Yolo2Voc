@@ -1,3 +1,3 @@
 import Yolo2Voc
 
-Yolo2Voc.convert('D:\images', 'D:\images')
+Yolo2Voc.convert('D:/willian/veiculos/motos', source="dnit")

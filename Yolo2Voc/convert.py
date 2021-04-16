@@ -59,17 +59,17 @@ class Yolo2Voc(object):
                         voc_labels.append({
                             'classe': class_map[int(data[0])],
                             'boxes': {
-                                'x': center_x - (bbox_width / 2),
-                                'y': center_y - (bbox_height / 2),
-                                'w': center_x + (bbox_width / 2),
-                                'h': center_y + (bbox_height / 2)
+                                'x': int(center_x - (bbox_width / 2)),
+                                'y': int(center_y - (bbox_height / 2)),
+                                'w': int(center_x + (bbox_width / 2)),
+                                'h': int(center_y + (bbox_height / 2))
                             }
                         })
                        
                     self.__createObjectAnnotation(image, img_shape, voc_labels)
                         
     def __createObjectAnnotation(self, file, img_shape, objects, **kwargs):
-        root = ET.Element("annotations")
+        root = ET.Element("annotation")
         ET.SubElement(root, "folder").text = str(Path(self.__annotations_path))
         ET.SubElement(root, "filename").text = file
         ET.SubElement(root, "path").text = str(Path(self.__annotations_path + "\\" + file))
@@ -82,6 +82,17 @@ class Yolo2Voc(object):
         ET.SubElement(size, "height").text = str(img_shape[1])
         ET.SubElement(size, "depth").text = str(img_shape[2])
 
-        print(ET.tostring(root))
+        for object in objects:
+            obj = ET.SubElement(root, "object")
+            ET.SubElement(obj, "name").text = object['classe']
+            ET.SubElement(obj, "pose").text = "Unspecified"
+            ET.SubElement(obj, "truncated").text = str(0)
+            ET.SubElement(obj, "difficult").text = str(0)
+            bbox = ET.SubElement(obj, "bndbox")
+            ET.SubElement(bbox, "xmin").text = str(object['boxes']['x'])
+            ET.SubElement(bbox, "ymin").text = str(object['boxes']['y'])
+            ET.SubElement(bbox, "xmax").text = str(object['boxes']['w'])
+            ET.SubElement(bbox, "ymax").text = str(object['boxes']['h'])
         
-        return root
+
+        print(ET.tostring(root))
