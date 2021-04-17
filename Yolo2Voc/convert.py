@@ -3,6 +3,7 @@ from PIL import Image
 import lxml.etree as ET
 from pathlib import Path
 from errno import ENOENT
+from tqdm import tqdm
 
 
 
@@ -23,8 +24,9 @@ class Yolo2Voc(object):
 
     def __readFiles(self):
         try:
-            for root, dirs, files in os.walk(self.__annotations_path):
-                for file in files:
+            print('Loading your dataset....')
+            for _, _, files in os.walk(self.__annotations_path):
+                for file in tqdm(files, unit=' file', ncols=74):
                     if file.endswith('txt'):
                         self.__annotation_files.append(file.split(".")[0])
                     else:
@@ -38,19 +40,19 @@ class Yolo2Voc(object):
         except:
             raise IOError(ENOENT, 'No such classes file in', self.__annotations_path)
 
-        for image in self.__image_files:
+        print('\nPlease wait for all labels to be processed....')
+        for image in tqdm(self.__image_files, unit=' label', ncols=70):
             image_file = Path(self.__annotations_path+"/"+image)
             relative_annotation = image.split(".")[0]
             annotation_file = Path(self.__annotations_path+"/"+relative_annotation+".txt")
             if relative_annotation in self.__annotation_files:
                 im = Image.open(image_file)
                 img_shape = (*im.size, len(im.mode))
-                w, h, c = img_shape
+                w, h, _ = img_shape
                 with open(annotation_file, "r") as file:
                     lines = file.readlines()
                     voc_labels = []
                     for line in lines:
-                        annotation = dict()
                         line = line.strip()
                         data = line.split()
                         bbox_width = float(data[3]) * w
@@ -67,7 +69,7 @@ class Yolo2Voc(object):
                             }
                         })
                        
-                    self.__writhingXml(self.__createObjectAnnotation(image, img_shape, voc_labels), relative_annotation, self.__output) 
+                    self.__writeXml(self.__createObjectAnnotation(image, img_shape, voc_labels), relative_annotation, self.__output) 
                         
     def __createObjectAnnotation(self, file, img_shape, objects, **kwargs):
         root = ET.Element("annotation")
@@ -83,26 +85,23 @@ class Yolo2Voc(object):
         ET.SubElement(size, "height").text = str(img_shape[1])
         ET.SubElement(size, "depth").text = str(img_shape[2])
 
-        for object in objects:
+        for objectLabeled in objects:
             obj = ET.SubElement(root, "object")
-            ET.SubElement(obj, "name").text = object['classe']
+            ET.SubElement(obj, "name").text = objectLabeled['classe']
             ET.SubElement(obj, "pose").text = "Unspecified"
             ET.SubElement(obj, "truncated").text = str(0)
             ET.SubElement(obj, "difficult").text = str(0)
             bbox = ET.SubElement(obj, "bndbox")
-            ET.SubElement(bbox, "xmin").text = str(object['boxes']['x'])
-            ET.SubElement(bbox, "ymin").text = str(object['boxes']['y'])
-            ET.SubElement(bbox, "xmax").text = str(object['boxes']['w'])
-            ET.SubElement(bbox, "ymax").text = str(object['boxes']['h'])
+            ET.SubElement(bbox, "xmin").text = str(objectLabeled['boxes']['x'])
+            ET.SubElement(bbox, "ymin").text = str(objectLabeled['boxes']['y'])
+            ET.SubElement(bbox, "xmax").text = str(objectLabeled['boxes']['w'])
+            ET.SubElement(bbox, "ymax").text = str(objectLabeled['boxes']['h'])
         
         return ET.tostring(root, pretty_print=True)
 
 
-    def __writhingXml(self, objectXml, file_name, output_path):
+    def __writeXml(self, objectXml, file_name, output_path):
 
         output_path = './output' if not self.__output else self.__output
-
-        print(objectXml)
-
         with open(output_path+'/'+file_name+'.xml', 'wb') as xmlObject:
             xmlObject.write(objectXml)
