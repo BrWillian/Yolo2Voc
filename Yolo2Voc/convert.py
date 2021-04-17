@@ -1,7 +1,6 @@
 import os
 from PIL import Image
-from xml.dom.minidom import parse
-import xml.etree.ElementTree as ET
+import lxml.etree as ET
 from pathlib import Path
 from errno import ENOENT
 
@@ -15,10 +14,12 @@ class Yolo2Voc(object):
 
         #kwargs
         self.__source = kwargs['source']
+        self.__output = kwargs['output']
 
         #call functions
         self.__readFiles()
-        self.__createFile()        
+        self.__createFile()
+        
 
     def __readFiles(self):
         try:
@@ -36,7 +37,7 @@ class Yolo2Voc(object):
             class_map = open(self.__annotations_path+"/"+"classes.txt").read().strip().split('\n')
         except:
             raise IOError(ENOENT, 'No such classes file in', self.__annotations_path)
-        
+
         for image in self.__image_files:
             image_file = Path(self.__annotations_path+"/"+image)
             relative_annotation = image.split(".")[0]
@@ -66,13 +67,13 @@ class Yolo2Voc(object):
                             }
                         })
                        
-                    self.__createObjectAnnotation(image, img_shape, voc_labels)
+                    self.__writhingXml(self.__createObjectAnnotation(image, img_shape, voc_labels), relative_annotation, self.__output) 
                         
     def __createObjectAnnotation(self, file, img_shape, objects, **kwargs):
         root = ET.Element("annotation")
-        ET.SubElement(root, "folder").text = str(Path(self.__annotations_path))
+        ET.SubElement(root, "folder").text = str(self.__annotations_path.split("/")[-1])
         ET.SubElement(root, "filename").text = file
-        ET.SubElement(root, "path").text = str(Path(self.__annotations_path + "\\" + file))
+        ET.SubElement(root, "path").text = str(Path(self.__annotations_path + "/" + file))
 
         source = ET.SubElement(root, "source")
         ET.SubElement(source, "database").text = "None" if not self.__source else self.__source
@@ -94,5 +95,14 @@ class Yolo2Voc(object):
             ET.SubElement(bbox, "xmax").text = str(object['boxes']['w'])
             ET.SubElement(bbox, "ymax").text = str(object['boxes']['h'])
         
+        return ET.tostring(root, pretty_print=True)
 
-        print(ET.tostring(root))
+
+    def __writhingXml(self, objectXml, file_name, output_path):
+
+        output_path = './output' if not self.__output else self.__output
+
+        print(objectXml)
+
+        with open(output_path+'/'+file_name+'.xml', 'wb') as xmlObject:
+            xmlObject.write(objectXml)
