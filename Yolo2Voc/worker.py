@@ -1,4 +1,6 @@
 class Worker(object):
-    """description of class"""
+    """Worker multithread class"""
+    def __init__(self):
+        pass
 
 
