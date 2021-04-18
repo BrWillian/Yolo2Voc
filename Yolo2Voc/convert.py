@@ -20,9 +20,7 @@ class Yolo2Voc(object):
         self.__createFile()
 
     def __readFiles(self):
-        """
-            Function to read dataset annotation, and create list of images with location.
-        """
+        """Function to read dataset annotation, and create list of images with location."""
         try:
             print('Loading your dataset....')
             for _, _, files in os.walk(self.__annotations_path):
@@ -35,9 +33,7 @@ class Yolo2Voc(object):
             raise
 
     def __createFile(self):
-        """
-            Function to convert yolo annotation for PascalVOC format.
-        """
+        """Function to convert yolo annotation for PascalVOC format."""
         try:
             class_map = open(self.__annotations_path+"/"+"classes.txt").read().strip().split('\n')
         except:
@@ -73,11 +69,9 @@ class Yolo2Voc(object):
                         })
 
                     self.__writeXml(self.__createObjectAnnotation(image, img_shape, voc_labels), relative_annotation, self.__output)
-                        
+
     def __createObjectAnnotation(self, file, img_shape, objects, **kwargs):
-        """
-            Function for modeling xml annotation on PascalVOC format.
-        """
+        """Function for modeling xml annotation on PascalVOC format."""
         root = ET.Element("annotation")
         ET.SubElement(root, "folder").text = str(self.__annotations_path.split("/")[-1])
         ET.SubElement(root, "filename").text = file
@@ -104,9 +98,7 @@ class Yolo2Voc(object):
         return ET.tostring(root, pretty_print=True)
 
     def __writeXml(self, objectXml, file_name, output_path):
-        """
-            Function for write xml object annotation.
-        """
+        """Function for write xml object annotation."""
         output_path = './output' if not self.__output else self.__output
         with open(output_path+'/'+file_name+'.xml', 'wb') as xmlObject:
             xmlObject.write(objectXml)
