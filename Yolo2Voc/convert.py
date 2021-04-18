@@ -6,7 +6,6 @@ from errno import ENOENT
 from tqdm import tqdm
 
 
-
 class Yolo2Voc(object):
     def __init__(self, annotations_path, **kwargs):
         """
@@ -16,13 +15,10 @@ class Yolo2Voc(object):
         self.__annotations_path = annotations_path
         self.__annotation_files = []
         self.__image_files = []
-
         self.__source = kwargs['source']
         self.__output = kwargs['output']
-
         self.__readFiles()
         self.__createFile()
-        
 
     def __readFiles(self):
         """
@@ -47,7 +43,6 @@ class Yolo2Voc(object):
             class_map = open(self.__annotations_path+"/"+"classes.txt").read().strip().split('\n')
         except:
             raise IOError(ENOENT, 'No such classes file in', self.__annotations_path)
-
         print('\nPlease wait for all labels to be processed....')
         for image in tqdm(self.__image_files, unit=' label', ncols=70):
             image_file = Path(self.__annotations_path+"/"+image)
@@ -76,7 +71,6 @@ class Yolo2Voc(object):
                                 'h': int(center_y + (bbox_height / 2))
                             }
                         })
-                       
                     self.__writeXml(self.__createObjectAnnotation(image, img_shape, voc_labels), relative_annotation, self.__output) 
                         
     def __createObjectAnnotation(self, file, img_shape, objects, **kwargs):
@@ -87,10 +81,8 @@ class Yolo2Voc(object):
         ET.SubElement(root, "folder").text = str(self.__annotations_path.split("/")[-1])
         ET.SubElement(root, "filename").text = file
         ET.SubElement(root, "path").text = str(Path(self.__annotations_path + "/" + file))
-
         source = ET.SubElement(root, "source")
         ET.SubElement(source, "database").text = "None" if not self.__source else self.__source
-
         size = ET.SubElement(root, "size")
         ET.SubElement(size, "width").text = str(img_shape[0])
         ET.SubElement(size, "height").text = str(img_shape[1])
@@ -107,9 +99,8 @@ class Yolo2Voc(object):
             ET.SubElement(bbox, "ymin").text = str(objectLabeled['boxes']['y'])
             ET.SubElement(bbox, "xmax").text = str(objectLabeled['boxes']['w'])
             ET.SubElement(bbox, "ymax").text = str(objectLabeled['boxes']['h'])
-        
-        return ET.tostring(root, pretty_print=True)
 
+        return ET.tostring(root, pretty_print=True)
 
     def __writeXml(self, objectXml, file_name, output_path):
         """
