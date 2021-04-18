@@ -8,9 +8,8 @@ from tqdm import tqdm
 
 class Yolo2Voc(object):
     def __init__(self, annotations_path, **kwargs):
-        """
-            A python class to convert YOLO into Pascal VOC 2012 format.
-            It generates xml annotation file in PASCAL VOC format for Object Detection.
+        """A python class to convert YOLO into Pascal VOC 2012 format.
+        It generates xml annotation file in PASCAL VOC format for Object Detection.
         """
         self.__annotations_path = annotations_path
         self.__annotation_files = []
@@ -31,7 +30,7 @@ class Yolo2Voc(object):
                     if file.endswith('txt'):
                         self.__annotation_files.append(file.split(".")[0])
                     else:
-                        self.__image_files.append(file)              
+                        self.__image_files.append(file)
         except NameError:
             raise
 
@@ -43,6 +42,7 @@ class Yolo2Voc(object):
             class_map = open(self.__annotations_path+"/"+"classes.txt").read().strip().split('\n')
         except:
             raise IOError(ENOENT, 'No such classes file in', self.__annotations_path)
+
         print('\nPlease wait for all labels to be processed....')
         for image in tqdm(self.__image_files, unit=' label', ncols=70):
             image_file = Path(self.__annotations_path+"/"+image)
@@ -71,7 +71,8 @@ class Yolo2Voc(object):
                                 'h': int(center_y + (bbox_height / 2))
                             }
                         })
-                    self.__writeXml(self.__createObjectAnnotation(image, img_shape, voc_labels), relative_annotation, self.__output) 
+
+                    self.__writeXml(self.__createObjectAnnotation(image, img_shape, voc_labels), relative_annotation, self.__output)
                         
     def __createObjectAnnotation(self, file, img_shape, objects, **kwargs):
         """
