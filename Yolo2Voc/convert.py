@@ -4,7 +4,7 @@ from lxml.etree import Element
 from lxml.etree import SubElement
 from lxml.etree import tostring
 from pathlib import Path
-from errno import ENOENT, EREMOTEIO
+from errno import ENOENT, EIO
 from tqdm import tqdm
 from defusedxml import ElementTree as etree
 
@@ -109,7 +109,7 @@ class Yolo2Voc(object):
             try:
                 os.mkdir('./output')
             except:
-                raise IOError(EREMOTEIO, 'It is not possible to create the directory: ', './output')
+                raise IOError(EIO, 'It is not possible to create the directory: ', './output')
 
         with open(output_path+'/'+file_name+'.xml', 'wb') as xmlObject:
             xmlObject.write(objectXml)
