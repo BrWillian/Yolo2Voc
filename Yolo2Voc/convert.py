@@ -14,8 +14,7 @@ etree.SubElement = SubElement
 etree.tostring = tostring
 
 class Yolo2Voc(object):
-    """
-    Python class to convert YOLO into Pascal VOC 2012 format.
+    """Python class to convert YOLO into Pascal VOC 2012 format.
 
     It generates xml annotation file in PASCAL VOC format for Object
     Detection.
