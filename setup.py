@@ -19,7 +19,7 @@ setup(
     description="Yolo Annotation to PascalVOC annotation.",
     long_description=readme,
     python_requires=">=3.6",
-    packages=find_packages(include=['yolo2voc', 'yolo2voc.*']),
+    packages=find_packages(exclude=["tests*", "yolo2voc.tests*"])),
     install_requires=[
         'Pillow',
         'lxml',
