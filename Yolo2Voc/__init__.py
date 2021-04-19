@@ -1,4 +1,5 @@
 """Yolo2Voc: Transform archives Yolo to PascalVOC annotation.
+
     Copyright (c) 2021-2021 Yolo2Voc contributors
     Permission is Hereby Granted, Free Of Charge, To Any Person Obtaining A Copy
     OF THIS SOFTWARE AND ASSOCIATED Documentation Files (The "Software"), To Deal
