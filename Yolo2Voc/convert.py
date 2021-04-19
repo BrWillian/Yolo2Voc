@@ -1,3 +1,4 @@
+"""Python implementation of convert YOLO into Pascal VOC 2012 format."""
 import os
 from PIL import Image
 from lxml.etree import Element
@@ -13,8 +14,19 @@ etree.SubElement = SubElement
 etree.tostring = tostring
 
 class Yolo2Voc(object):
+    """
+    Python class to convert YOLO into Pascal VOC 2012 format.
+
+    It generates xml annotation file in PASCAL VOC format for Object
+    Detection.
+    """
     def __init__(self, annotations_path, **kwargs):
-        """A python class to convert YOLO into Pascal VOC 2012 format. It generates xml annotation file in PASCAL VOC format for Object Detection."""
+        """Class Yolo2Voc Accepts several arguments.
+
+        :param annotations_path: Path where it counts as annotations.
+        :param source: Source database on annotations.
+        :param output: Source folder for new annotations.
+        """
         self.__annotations_path = annotations_path
         self.__annotation_files = []
         self.__image_files = []
@@ -24,7 +36,7 @@ class Yolo2Voc(object):
         self.__createFile()
 
     def __readFiles(self):
-        """Function to read dataset annotation, and create list of images with location."""
+        """Read dataset annotation, and create list of images with location."""
         try:
             print('Loading your dataset....')
             for _, _, files in os.walk(self.__annotations_path):
@@ -37,7 +49,7 @@ class Yolo2Voc(object):
             raise
 
     def __createFile(self):
-        """Function to convert yolo annotation for PascalVOC format."""
+        """Convert yolo annotation for PascalVOC format."""
         try:
             class_map = open(self.__annotations_path+"/"+"classes.txt").read().strip().split('\n')
         except:
@@ -75,7 +87,7 @@ class Yolo2Voc(object):
                     self.__writeXml(self.__createObjectAnnotation(image, img_shape, voc_labels), relative_annotation, self.__output)
 
     def __createObjectAnnotation(self, file, img_shape, objects, **kwargs):
-        """Function for modeling xml annotation on PascalVOC format."""
+        """Modeling xml annotation on PascalVOC format."""
         root = Element("annotation")
         SubElement(root, "folder").text = str(self.__annotations_path.split("/")[-1])
         SubElement(root, "filename").text = file
@@ -102,7 +114,7 @@ class Yolo2Voc(object):
         return tostring(root, pretty_print=True)
 
     def __writeXml(self, objectXml, file_name, output_path):
-        """Function for write xml object annotation."""
+        """Write xml object annotation."""
         output_path = './output' if not self.__output else self.__output
 
         if output_path == './output':
