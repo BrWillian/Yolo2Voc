@@ -8,10 +8,7 @@ from tqdm import tqdm
 
 class Yolo2Voc(object):
     def __init__(self, annotations_path, **kwargs):
-        """
-        A python class to convert YOLO into Pascal VOC 2012 format.
-        It generates xml annotation file in PASCAL VOC format for Object Detection.
-        """
+        """A python class to convert YOLO into Pascal VOC 2012 format. It generates xml annotation file in PASCAL VOC format for Object Detection."""
         self.__annotations_path = annotations_path
         self.__annotation_files = []
         self.__image_files = []
