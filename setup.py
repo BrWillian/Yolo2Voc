@@ -13,7 +13,7 @@ setup(
     author_email = "wiliam-m-@hotmail.com",
     url="https://github.com/BrWillian/Yolo2Voc/",
     project_urls={
-        "Documentation": "#",
+        "Documentation": "https://yolo2voc.readthedocs.io/",
     },
     license = "MIT",
     description="Yolo Annotation to PascalVOC annotation.",

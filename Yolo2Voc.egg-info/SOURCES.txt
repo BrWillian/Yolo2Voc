@@ -1,0 +1,8 @@
+README.rst
+setup.cfg
+setup.py
+Yolo2Voc.egg-info/PKG-INFO
+Yolo2Voc.egg-info/SOURCES.txt
+Yolo2Voc.egg-info/dependency_links.txt
+Yolo2Voc.egg-info/requires.txt
+Yolo2Voc.egg-info/top_level.txt
