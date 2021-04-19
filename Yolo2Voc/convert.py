@@ -1,6 +1,5 @@
 import os
 from PIL import Image
-import lxml.etree as ET
 from lxml.etree import Element
 from lxml.etree import SubElement
 from lxml.etree import tostring
@@ -95,7 +94,7 @@ class Yolo2Voc(object):
             SubElement(obj, "pose").text = "Unspecified"
             SubElement(obj, "truncated").text = str(0)
             SubElement(obj, "difficult").text = str(0)
-            bbox = ET.SubElement(obj, "bndbox")
+            bbox = SubElement(obj, "bndbox")
             SubElement(bbox, "xmin").text = str(objectLabeled['boxes']['x'])
             SubElement(bbox, "ymin").text = str(objectLabeled['boxes']['y'])
             SubElement(bbox, "xmax").text = str(objectLabeled['boxes']['w'])

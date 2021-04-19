@@ -1,3 +1,3 @@
 import Yolo2Voc
 
-Yolo2Voc.convert('D:/datasets/veiculos/veiculos/caminhao', 'C:/Users/wilia/Desktop/teste', source=None)
+Yolo2Voc.convert('D:/willian/veiculos/outros', output='D:/willian/labels-veiculos/teste', source='DNIT')
