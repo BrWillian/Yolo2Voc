@@ -1,21 +1,21 @@
 """Yolo2Voc: Transform archives Yolo to PascalVOC annotation.
 
-    Copyright (c) 2021-2021 Yolo2Voc contributors
-    Permission is Hereby Granted, Free Of Charge, To Any Person Obtaining A Copy
-    OF THIS SOFTWARE AND ASSOCIATED Documentation Files (The "Software"), To Deal
-    in the Software without restriction, including without limitation the rights
-    to use, copy, modify, merge, publish, distribute, sublicense, and / or sell
-    Copies of the Software, and to PER PER PERPOSS TO WHOM THE SOFTWARE IS
-    SO Furnished to Subject to The Following Conditions:
-    The above Copyright Notice and this Permission Notice Shall Be included in
-    All copies or substantial portions of the software.
-    The Software Is Provided "AS IS", Without Warranty Of Any Kind, Express OR
-    Implied, including but not limited to the warranties of merchantability,
-    Fitness is the private purpose and noninfringement. In the Event Shall The
-    Authors or Copyright Holders Be Liabe for Any Claim, Damages or Other
-    Liability, whether in An Action of Contract, Tort or Otherwise, Arising From,
-    Out of or in connection with the software or the use or other dealings in
-    The Software.
+Copyright (c) 2021-2021 Yolo2Voc contributors
+Permission is Hereby Granted, Free Of Charge, To Any Person Obtaining A Copy
+OF THIS SOFTWARE AND ASSOCIATED Documentation Files (The "Software"), To Deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and / or sell
+Copies of the Software, and to PER PER PERPOSS TO WHOM THE SOFTWARE IS
+SO Furnished to Subject to The Following Conditions:
+The above Copyright Notice and this Permission Notice Shall Be included in
+All copies or substantial portions of the software.
+The Software Is Provided "AS IS", Without Warranty Of Any Kind, Express OR
+Implied, including but not limited to the warranties of merchantability,
+Fitness is the private purpose and noninfringement. In the Event Shall The
+Authors or Copyright Holders Be Liabe for Any Claim, Damages or Other
+Liability, whether in An Action of Contract, Tort or Otherwise, Arising From,
+Out of or in connection with the software or the use or other dealings in
+The Software.
 """
 
 from . import convert
