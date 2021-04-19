@@ -8,7 +8,6 @@ from errno import ENOENT
 from tqdm import tqdm
 from defusedxml import ElementTree as etree
 
-
 etree.Element = _ElementType = Element
 etree.SubElement = SubElement
 etree.tostring = tostring
