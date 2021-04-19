@@ -1,10 +1,18 @@
 import os
 from PIL import Image
 import lxml.etree as ET
+from lxml.etree import Element
+from lxml.etree import SubElement
+from lxml.etree import tostring
 from pathlib import Path
 from errno import ENOENT
 from tqdm import tqdm
+from defusedxml import ElementTree as etree
 
+
+etree.Element = _ElementType = Element
+etree.SubElement = SubElement
+etree.tostring = tostring
 
 class Yolo2Voc(object):
     def __init__(self, annotations_path, **kwargs):
@@ -70,30 +78,30 @@ class Yolo2Voc(object):
 
     def __createObjectAnnotation(self, file, img_shape, objects, **kwargs):
         """Function for modeling xml annotation on PascalVOC format."""
-        root = ET.Element("annotation")
-        ET.SubElement(root, "folder").text = str(self.__annotations_path.split("/")[-1])
-        ET.SubElement(root, "filename").text = file
-        ET.SubElement(root, "path").text = str(Path(self.__annotations_path + "/" + file))
-        source = ET.SubElement(root, "source")
-        ET.SubElement(source, "database").text = "None" if not self.__source else self.__source
-        size = ET.SubElement(root, "size")
-        ET.SubElement(size, "width").text = str(img_shape[0])
-        ET.SubElement(size, "height").text = str(img_shape[1])
-        ET.SubElement(size, "depth").text = str(img_shape[2])
+        root = Element("annotation")
+        SubElement(root, "folder").text = str(self.__annotations_path.split("/")[-1])
+        SubElement(root, "filename").text = file
+        SubElement(root, "path").text = str(Path(self.__annotations_path + "/" + file))
+        source = SubElement(root, "source")
+        SubElement(source, "database").text = "None" if not self.__source else self.__source
+        size = SubElement(root, "size")
+        SubElement(size, "width").text = str(img_shape[0])
+        SubElement(size, "height").text = str(img_shape[1])
+        SubElement(size, "depth").text = str(img_shape[2])
 
         for objectLabeled in objects:
-            obj = ET.SubElement(root, "object")
-            ET.SubElement(obj, "name").text = objectLabeled['classe']
-            ET.SubElement(obj, "pose").text = "Unspecified"
-            ET.SubElement(obj, "truncated").text = str(0)
-            ET.SubElement(obj, "difficult").text = str(0)
+            obj = SubElement(root, "object")
+            SubElement(obj, "name").text = objectLabeled['classe']
+            SubElement(obj, "pose").text = "Unspecified"
+            SubElement(obj, "truncated").text = str(0)
+            SubElement(obj, "difficult").text = str(0)
             bbox = ET.SubElement(obj, "bndbox")
-            ET.SubElement(bbox, "xmin").text = str(objectLabeled['boxes']['x'])
-            ET.SubElement(bbox, "ymin").text = str(objectLabeled['boxes']['y'])
-            ET.SubElement(bbox, "xmax").text = str(objectLabeled['boxes']['w'])
-            ET.SubElement(bbox, "ymax").text = str(objectLabeled['boxes']['h'])
+            SubElement(bbox, "xmin").text = str(objectLabeled['boxes']['x'])
+            SubElement(bbox, "ymin").text = str(objectLabeled['boxes']['y'])
+            SubElement(bbox, "xmax").text = str(objectLabeled['boxes']['w'])
+            SubElement(bbox, "ymax").text = str(objectLabeled['boxes']['h'])
 
-        return ET.tostring(root, pretty_print=True)
+        return tostring(root, pretty_print=True)
 
     def __writeXml(self, objectXml, file_name, output_path):
         """Function for write xml object annotation."""
