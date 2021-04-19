@@ -1,13 +1,14 @@
 #!/usr/bin/env python
 from setuptools import setup, find_packages
 
-version = "1.0.2"
+version = "1.0.3"
 
 with open("./README.rst", encoding="utf-8") as f:
     readme = f.read()
 
 setup(
     name="Yolo2Voc",
+    packages = ['Yolo2Voc'],
     version=version,
     author = "Willian Antunes",
     author_email = "wiliam-m-@hotmail.com",
@@ -19,7 +20,6 @@ setup(
     description="Yolo Annotation to PascalVOC annotation.",
     long_description=readme,
     python_requires=">=3.6",
-    packages=find_packages(exclude=["tests*", "yolo2voc.tests*"]),
     install_requires=[
         'Pillow',
         'lxml',

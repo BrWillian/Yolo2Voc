@@ -17,7 +17,7 @@ Requirements
 
 * Python -- one of the following:
 
-  - Python : 3.6 and newer
+  - CPython : 3.6 and newer
   - Pillow : Latest 8.x version
   - lxml : Latest 4.x version
   - tqdm : Latest 4.x version
