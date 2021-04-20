@@ -1,10 +1,9 @@
-﻿.. image:: https://readthedocs.org/projects/yolo2voc/badge/?version=latest
-    :target: https://yolo2voc.readthedocs.io/
-    :alt: Documentation Status
-
-.. image:: https://app.codacy.com/project/badge/Grade/b5cbcb07687648fe8f77027f4438aceb
+﻿.. image:: https://app.codacy.com/project/badge/Grade/b5cbcb07687648fe8f77027f4438aceb
     :target: https://www.codacy.com/gh/BrWillian/Yolo2Voc/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=BrWillian/Yolo2Voc&amp;utm_campaign=Badge_Grade
 
+.. image:: https://readthedocs.org/projects/yolo2voc/badge/?version=latest
+    :target: https://yolo2voc.readthedocs.io/
+    :alt: Documentation Status
 
 Yolo2Voc
 =============
