@@ -361,3 +361,8 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Custom
+docs/build/*
+dist/*
+Yolo2Voc.egg-info/*
