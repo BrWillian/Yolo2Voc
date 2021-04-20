@@ -7,6 +7,7 @@ Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Yolo2Voc", "Yolo2Voc\Yolo2V
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8D33A124-682A-4FE9-8D6E-FACAD558D5A8}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
 		example.py = example.py
 		LICENSE.txt = LICENSE.txt
 		README.rst = README.rst
