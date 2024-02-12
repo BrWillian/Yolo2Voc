@@ -104,11 +104,18 @@ class Yolo2Voc(object):
             SubElement(obj, "pose").text = "Unspecified"
             SubElement(obj, "truncated").text = str(0)
             SubElement(obj, "difficult").text = str(0)
+
+            # Ensure bounding box coordinates are within image boundaries
+            x_min = max(objectLabeled['boxes']['x'], 0)
+            y_min = max(objectLabeled['boxes']['y'], 0)
+            x_max = min(objectLabeled['boxes']['w'], img_shape[0])
+            y_max = min(objectLabeled['boxes']['h'], img_shape[1])
+
             bbox = SubElement(obj, "bndbox")
-            SubElement(bbox, "xmin").text = str(objectLabeled['boxes']['x'])
-            SubElement(bbox, "ymin").text = str(objectLabeled['boxes']['y'])
-            SubElement(bbox, "xmax").text = str(objectLabeled['boxes']['w'])
-            SubElement(bbox, "ymax").text = str(objectLabeled['boxes']['h'])
+            SubElement(bbox, "xmin").text = str(x_min)
+            SubElement(bbox, "ymin").text = str(y_min)
+            SubElement(bbox, "xmax").text = str(x_max)
+            SubElement(bbox, "ymax").text = str(y_max)
 
         return tostring(root, pretty_print=True)
 
