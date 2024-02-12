@@ -21,7 +21,7 @@ from . import convert
 
 convert = convert.Yolo2Voc
 
-VERSION = (1, 0, 3, None)
+VERSION = (1, 0, 4, None)
 if VERSION[3] is not None:
     VERSION_STRING = "%d.%d.%d_%s" % VERSION
 else:
